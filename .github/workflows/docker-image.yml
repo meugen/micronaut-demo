@@ -14,6 +14,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Generate version
+      id: image-version
+      run: echo "version=${date +%s}"
     - name: Publish the docker image
       uses: elgohr/Publish-Docker-Github-Action@v5
       with: 
@@ -21,3 +24,4 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io
+        tags: "latest,{{ steps.image-version.outputs.version }}"
